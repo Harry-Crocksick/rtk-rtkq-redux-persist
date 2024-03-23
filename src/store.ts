@@ -1,7 +1,8 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, combineSlices } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { pokemonApi } from "./api/pokemon";
-import counterReducer from "./features/counter/counterSlice";
+import { counterSlice } from "./features/counter/counterSlice";
+import { usersSlice } from "./features/asyncLogics/fetchThat";
 import {
   persistStore,
   persistReducer,
@@ -21,11 +22,12 @@ const persistConfig = {
   blacklist: [pokemonApi.reducerPath],
 };
 
-const persistedCounterReducer = persistReducer(persistConfig, counterReducer);
+const rootSlice = combineSlices(counterSlice, usersSlice);
+const persistedReducerSlices = persistReducer(persistConfig, rootSlice);
 
 export const store = configureStore({
   reducer: {
-    counter: persistedCounterReducer,
+    persistedReducer: persistedReducerSlices,
     [pokemonApi.reducerPath]: pokemonApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>

@@ -44,7 +44,7 @@ export default function App() {
 
 function Counter() {
   const [input, setInput] = useState("");
-  const count = useAppSelector((state) => state.counter.value);
+  const count = useAppSelector((state) => state.persistedReducer.counter.value);
   const dispatch = useAppDispatch();
 
   return (

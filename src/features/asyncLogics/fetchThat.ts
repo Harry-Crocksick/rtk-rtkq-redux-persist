@@ -18,7 +18,7 @@ const initialState = {
   status: "idle",
 } satisfies InitialState as InitialState;
 
-const usersSlice = createSlice({
+export const usersSlice = createSlice({
   name: "users",
   initialState,
   reducers: {},
